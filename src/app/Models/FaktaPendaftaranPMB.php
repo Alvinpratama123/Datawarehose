@@ -38,7 +38,7 @@ class FaktaPendaftaranPMB extends Model
     public function jalurMasuk()
     {
         return $this->belongsTo(DimJalurMasuk::class, 'id_jalur_masuk', 'id_jalur_masuk');
-    }
+    }    
 
     public function calonMahasiswa()
     {
@@ -46,7 +46,8 @@ class FaktaPendaftaranPMB extends Model
     }
 
     public function programStudi()
-    {
-        return $this->belongsTo(DimProgramStudi::class, 'id_program_studi', 'id_program_studi');
-    }
+{
+    return $this->belongsTo(DimProgramStudi::class, 'id_program_studi', 'id_program_studi');
+}
+
 }

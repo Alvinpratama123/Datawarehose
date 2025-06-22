@@ -2,6 +2,8 @@
 
 namespace App\Filament\Admin\Widgets;
 
+use App\Models\FaktaPendaftaranPMB;
+use Illuminate\Support\Facades\DB;
 use Filament\Widgets\ChartWidget;
 
 class GrafikPendaftarPerJalur extends ChartWidget
@@ -10,12 +12,17 @@ class GrafikPendaftarPerJalur extends ChartWidget
 
     protected function getData(): array
     {
+        $data = FaktaPendaftaranPMB::select('id_jalur_masuk', DB::raw('count(*) as total'))
+            ->groupBy('id_jalur_masuk')
+            ->with('jalurMasuk') // relasi dari model FaktaPendaftaranPMB
+            ->get();
+
         return [
-            'labels' => ['Reguler', 'Mandiri'],
+            'labels' => $data->pluck('jalurMasuk.nama_jalur')->toArray(),
             'datasets' => [
                 [
                     'label' => 'Jumlah Pendaftar',
-                    'data' => [30, 20],
+                    'data' => $data->pluck('total')->toArray(),
                 ],
             ],
         ];

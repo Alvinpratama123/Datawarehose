@@ -2,6 +2,8 @@
 
 namespace App\Filament\Admin\Widgets;
 
+use App\Models\FaktaPendaftaranPMB;
+use Illuminate\Support\Facades\DB;
 use Filament\Widgets\ChartWidget;
 
 class GrafikStatusBayar extends ChartWidget
@@ -10,12 +12,16 @@ class GrafikStatusBayar extends ChartWidget
 
     protected function getData(): array
     {
+        $data = FaktaPendaftaranPMB::select('status_bayar', DB::raw('count(*) as total'))
+            ->groupBy('status_bayar')
+            ->get();
+
         return [
-            'labels' => ['Sudah Bayar', 'Belum Bayar'],
+            'labels' => $data->pluck('status_bayar')->toArray(),
             'datasets' => [
                 [
                     'label' => 'Jumlah',
-                    'data' => [5, 3], // dummy data
+                    'data' => $data->pluck('total')->toArray(),
                 ],
             ],
         ];
@@ -23,6 +29,6 @@ class GrafikStatusBayar extends ChartWidget
 
     protected function getType(): string
     {
-        return 'pie'; // bisa 'bar', 'line', dll
+        return 'pie'; // Atau bar, line sesuai kebutuhan
     }
 }
