@@ -2,25 +2,24 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use App\Models\DimProgramStudi;
 
 class DimProgramStudiSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
-{
-$prodi = ['TI', 'SI', 'Manajemen', 'Akuntansi', 'Hukum'];
-$fakultas = ['FTI', 'FEB', 'FH'];
-for ($i = 1; $i <= 10; $i++) {
-DimProgramStudi::create([
-'nama_prodi' => $prodi[$i % 5],
-'fakultas' => $fakultas[$i % 3],
-'jenjang_pendidikan' => 'S1',
-]);
-}
-}
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('dim_program_studis')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        for ($i = 1; $i <= 10; $i++) {
+            DimProgramStudi::create([
+                'nama_prodi' => 'Prodi ' . $i,
+                'fakultas' => 'Fakultas ' . $i,
+                'jenjang_pendidikan' => 'S1',
+            ]);
+        }
+    }
 }

@@ -2,26 +2,26 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use App\Models\DimCalonMahasiswa;
 
 class DimCalonMahasiswaSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
-{
-$gender = ['Laki-laki', 'Perempuan'];
-for ($i = 1; $i <= 10; $i++) {
-DimCalonMahasiswa::create([
-'nama_lengkap' => 'Mahasiswa-' . $i,
-'jenis_kelamin' => $gender[$i % 2],
-'tanggal_lahir' => now()->subYears(18 + $i),
-'usia' => 18 + $i,
-'pendidikan_terakhir' => 'SMA',
-]);
-}
-}
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('dim_calon_mahasiswas')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        for ($i = 1; $i <= 10; $i++) {
+            DimCalonMahasiswa::create([
+                'nama_lengkap' => 'Mahasiswa ' . $i,
+                'jenis_kelamin' => $i % 2 == 0 ? 'Laki-laki' : 'Perempuan',
+                'tanggal_lahir' => now()->subYears(18 + $i)->toDateString(),
+                'usia' => 18 + $i,
+                'pendidikan_terakhir' => 'SMA',
+            ]);
+        }
+    }
 }

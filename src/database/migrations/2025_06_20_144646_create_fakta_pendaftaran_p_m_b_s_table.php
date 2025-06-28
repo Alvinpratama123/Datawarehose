@@ -12,15 +12,24 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('fakta_pendaftaran_p_m_b_s', function (Blueprint $table) {
-            $table->id('id_fakta');
-            $table->foreignId('id_waktu')->constrained('dim_waktus', 'id_waktu');
-            $table->foreignId('id_lokasi')->constrained('dim_lokasis', 'id_lokasi');           
-            $table->foreignId('id_jalur_masuk')->constrained('dim_jalur_masuks', 'id_jalur_masuk');
-            $table->foreignId('id_calon_mahasiswa')->constrained('dim_calon_mahasiswas', 'id_calon_mahasiswa');
-            $table->foreignId('id_program_studi')->constrained('dim_program_studis', 'id_program_studi');
+            $table->id('id_fakta'); // ⬅️ Primary key untuk fakta
+            $table->unsignedBigInteger('id_calon_mahasiswa');
+            $table->unsignedBigInteger('id_program_studi');
+            $table->unsignedBigInteger('id_jalur_masuk');
+            $table->unsignedBigInteger('id_lokasi');
+            $table->unsignedBigInteger('id_waktu');
+
             $table->string('status_bayar');
             $table->string('status_seleksi');
             $table->decimal('jumlah_bayar', 10, 2);
+
+            // Foreign Keys
+            $table->foreign('id_calon_mahasiswa')->references('id_calon_mahasiswa')->on('dim_calon_mahasiswas');
+            $table->foreign('id_program_studi')->references('id_program_studi')->on('dim_program_studis');
+            $table->foreign('id_jalur_masuk')->references('id_jalur_masuk')->on('dim_jalur_masuks');
+            $table->foreign('id_lokasi')->references('id_lokasi')->on('dim_lokasis');
+            $table->foreign('id_waktu')->references('id_waktu')->on('dim_waktus');
+
             $table->timestamps();
         });
     }

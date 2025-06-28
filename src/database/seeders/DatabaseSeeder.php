@@ -15,24 +15,28 @@ class DatabaseSeeder extends Seeder
     {
         // Pastikan role 'super_admin' ada
         Role::firstOrCreate(['name' => 'super_admin']);
-
-        // Buat 1 user admin
-        $user = User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@admin.com',
-            'password' => bcrypt('password'), // password default
-        ]);
-
+    
+        // Buat atau update 1 user admin
+        $user = User::updateOrCreate(
+            ['email' => 'admin@admin.com'], // cari berdasarkan email
+            [
+                'name' => 'Admin',
+                'password' => bcrypt('password'), // password default
+            ]
+        );
+    
         // Assign role super_admin ke user tersebut
         $user->assignRole('super_admin');
-
+    
         // Jalankan seeder untuk semua tabel dimensi
         $this->call([
-            DimWaktuSeeder::class,
-            DimLokasiSeeder::class,
-            DimJalurMasukSeeder::class,
             DimCalonMahasiswaSeeder::class,
             DimProgramStudiSeeder::class,
+            DimJalurMasukSeeder::class,
+            DimLokasiSeeder::class,
+            DimWaktuSeeder::class,
+            FaktaPendaftaranPMBSeeder::class,
         ]);
     }
+    
 }
