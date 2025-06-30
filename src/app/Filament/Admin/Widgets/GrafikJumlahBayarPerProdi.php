@@ -3,7 +3,6 @@
 namespace App\Filament\Admin\Widgets;
 
 use App\Models\FaktaPendaftaranPMB;
-use Illuminate\Support\Facades\DB;
 use Filament\Widgets\ChartWidget;
 
 class GrafikJumlahBayarPerProdi extends ChartWidget
@@ -12,17 +11,19 @@ class GrafikJumlahBayarPerProdi extends ChartWidget
 
     protected function getData(): array
     {
-        $data = FaktaPendaftaranPMB::select('id_program_studi', DB::raw('SUM(jumlah_bayar) as total_bayar'))
-            ->groupBy('id_program_studi')
-            ->with('programStudi') // relasi dari model FaktaPendaftaranPMB
-            ->get();
+        $data = FaktaPendaftaranPMB::with('programStudi')
+            ->get()
+            ->groupBy('programStudi.nama_prodi')
+            ->map(function ($item) {
+                return $item->sum('jumlah_bayar');
+            });
 
         return [
-            'labels' => $data->pluck('programStudi.nama_prodi')->toArray(),
+            'labels' => $data->keys()->toArray(),
             'datasets' => [
                 [
                     'label' => 'Jumlah Bayar',
-                    'data' => $data->pluck('total_bayar')->toArray(),
+                    'data' => $data->values()->toArray(),
                 ],
             ],
         ];

@@ -11,7 +11,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Actions\Action;
 use Illuminate\Support\Facades\Artisan;
-use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 
 class FaktaPendaftaranPMBResource extends Resource
 {
@@ -23,7 +24,36 @@ class FaktaPendaftaranPMBResource extends Resource
     {
         return $form
             ->schema([
-                // Bisa diisi jika ingin form create/edit
+                Select::make('id_calon_mahasiswa')
+                    ->relationship('calonMahasiswa', 'nama_lengkap')
+                    ->required(),
+                Select::make('id_program_studi')
+                    ->relationship('programStudi', 'nama_prodi')
+                    ->required(),
+                Select::make('id_jalur_masuk')
+                    ->relationship('jalurMasuk', 'nama_jalur')
+                    ->required(),
+                    Select::make('id_lokasi')
+                    ->relationship('lokasi', 'kota_kabupaten') // atau bisa pakai 'provinsi'
+                    ->required(),                
+                Select::make('id_waktu')
+                    ->relationship('waktu', 'tanggal')
+                    ->required(),
+                Select::make('status_bayar')
+                    ->options([
+                        'Lunas' => 'Lunas',
+                        'Belum Lunas' => 'Belum Lunas',
+                    ])
+                    ->required(),
+                Select::make('status_seleksi')
+                    ->options([
+                        'Lolos' => 'Lolos',
+                        'Tidak Lolos' => 'Tidak Lolos',
+                    ])
+                    ->required(),
+                TextInput::make('jumlah_bayar')
+                    ->numeric()
+                    ->required(),
             ]);
     }
 
@@ -31,7 +61,6 @@ class FaktaPendaftaranPMBResource extends Resource
     {
         return $table
             ->columns([
-                // Contoh tampilkan beberapa kolom dari tabel fakta
                 Tables\Columns\TextColumn::make('waktu.tanggal')->label('Tanggal'),
                 Tables\Columns\TextColumn::make('lokasi.provinsi')->label('Provinsi'),
                 Tables\Columns\TextColumn::make('jalurMasuk.nama_jalur')->label('Jalur Masuk'),
@@ -40,9 +69,6 @@ class FaktaPendaftaranPMBResource extends Resource
                 Tables\Columns\TextColumn::make('status_bayar')->label('Status Bayar'),
                 Tables\Columns\TextColumn::make('status_seleksi')->label('Status Seleksi'),
                 Tables\Columns\TextColumn::make('jumlah_bayar')->label('Jumlah Bayar')->money('IDR', true),
-            ])
-            ->filters([
-                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -53,7 +79,7 @@ class FaktaPendaftaranPMBResource extends Resource
                     ->action(function () {
                         Artisan::call('etl:pmb');
                     })
-                    ->successNotificationTitle('✅ Proses ETL berhasil dijalankan!')
+                    ->successNotificationTitle('\u2705 Proses ETL berhasil dijalankan!')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -64,9 +90,7 @@ class FaktaPendaftaranPMBResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array

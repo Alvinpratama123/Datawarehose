@@ -10,7 +10,7 @@ class FaktaPendaftaranPMB extends Model
     use HasFactory;
 
     protected $table = 'fakta_pendaftaran_p_m_b_s';
-    protected $primaryKey = 'id_fakta'; // ⬅️ WAJIB: biar Laravel ngerti PK kamu ini
+    protected $primaryKey = 'id_fakta';
     public $incrementing = true;
     protected $keyType = 'int';
 
@@ -25,6 +25,8 @@ class FaktaPendaftaranPMB extends Model
         'jumlah_bayar',
     ];
 
+    // Relasi ke dimensi
+
     public function waktu()
     {
         return $this->belongsTo(DimWaktu::class, 'id_waktu', 'id_waktu');
@@ -38,7 +40,7 @@ class FaktaPendaftaranPMB extends Model
     public function jalurMasuk()
     {
         return $this->belongsTo(DimJalurMasuk::class, 'id_jalur_masuk', 'id_jalur_masuk');
-    }    
+    }
 
     public function calonMahasiswa()
     {
@@ -46,8 +48,7 @@ class FaktaPendaftaranPMB extends Model
     }
 
     public function programStudi()
-{
-    return $this->belongsTo(DimProgramStudi::class, 'id_program_studi', 'id_program_studi');
-}
-
+    {
+        return $this->belongsTo(DimProgramStudi::class, 'id_program_studi', 'id_program_studi');
+    }
 }
