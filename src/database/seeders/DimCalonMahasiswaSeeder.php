@@ -20,7 +20,8 @@ class DimCalonMahasiswaSeeder extends Seeder
                 'jenis_kelamin' => $i % 2 == 0 ? 'Laki-laki' : 'Perempuan',
                 'tanggal_lahir' => now()->subYears(18 + $i)->toDateString(),
                 'usia' => 18 + $i,
-                'pendidikan_terakhir' => 'SMA',
+                'pendidikan_terakhir' => $i % 2 == 0 ? 'SMK' : 'SMA',
+                'asal_sekolah' => $i % 2 == 0 ? 'SMKN 1 Kota ' . $i : 'SMAN 2 Kota ' . $i,
             ]);
         }
     }

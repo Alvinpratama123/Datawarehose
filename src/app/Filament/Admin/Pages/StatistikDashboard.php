@@ -7,6 +7,14 @@ use App\Filament\Admin\Widgets\GrafikPendaftarPerJalur;
 use App\Filament\Admin\Widgets\GrafikJumlahBayarPerProdi;
 use App\Filament\Admin\Widgets\GrafikStatusSeleksi;
 use App\Filament\Admin\Widgets\GrafikStatusBayar;
+use App\Filament\Admin\Widgets\GrafikGenderPendaftar;
+use App\Filament\Admin\Widgets\GrafikLulusanPendaftar;
+use App\Filament\Admin\Widgets\GrafikPendaftarPerProvinsi;
+use App\Filament\Admin\Widgets\GrafikPendaftarPerGender;
+use App\Filament\Admin\Widgets\GrafikPendaftarPerLulusan;
+
+
+
 
 class StatistikDashboard extends Page
 {
@@ -21,6 +29,10 @@ class StatistikDashboard extends Page
             GrafikJumlahBayarPerProdi::class,
             GrafikStatusSeleksi::class,
             GrafikStatusBayar::class,
+            GrafikPendaftarPerGender::class,
+            GrafikPendaftarPerLulusan::class,
+            GrafikPendaftarPerProvinsi::class,
+
         ];
     }
 }

@@ -41,6 +41,10 @@ class DimCalonMahasiswaResource extends Resource
             TextInput::make('pendidikan_terakhir')
                 ->required()
                 ->label('pendidikan_terakhir'),
+            TextInput::make('asal_sekolah')
+                ->required()
+                ->label('asal_sekolah'),    
+
         ]);
 }
 
@@ -51,6 +55,8 @@ public static function table(Table $table): Table
             TextColumn::make('nama_lengkap')->label('Nama Lengkap'),
             TextColumn::make('jenis_kelamin')->label('Jenis Kelamin'),
             TextColumn::make('tanggal_lahir')->label('Tanggal Lahir'),
+            TextColumn::make('asal_sekolah')->label('asal_sekolah'),
+
             TextColumn::make('pendidikan_terakhir')->label('pendidikan_terakhir'),
         ])
         ->filters([

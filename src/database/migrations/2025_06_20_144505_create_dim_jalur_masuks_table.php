@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('dim_jalur_masuks', function (Blueprint $table) {
             $table->id('id_jalur_masuk');
             $table->string('nama_jalur');
-            $table->string('tipe_jalur');
+            $table->string('tipe_jalur')->nullable();
             $table->timestamps();
         });
     }

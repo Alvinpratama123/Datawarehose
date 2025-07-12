@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('nama_lengkap');
             $table->string('jenis_kelamin');
             $table->date('tanggal_lahir');
-            $table->integer('usia');
+            $table->integer('usia')->nullable();
             $table->string('pendidikan_terakhir');
+            $table->string('asal_sekolah')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +28,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dim_calon_mahasiswas');
+        Schema::table('dim_calon_mahasiswas', function (Blueprint $table) {
+            $table->dropColumn('usia');
+        });
     }
 };

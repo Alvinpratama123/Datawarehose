@@ -19,5 +19,6 @@ class DimCalonMahasiswa extends Model
         'jenis_kelamin',
         'tanggal_lahir',
         'pendidikan_terakhir',
+        'asal_sekolah',
     ];
 }
